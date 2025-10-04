@@ -1,0 +1,547 @@
+[{
+  "_id": {
+    "$oid": "67c005175d691bf0a4aa0208"
+  },
+  "email": "swaraj.nalawade04@gmail.com",
+  "password": "$2b$10$8aKWbFrIODvCoztYhGh.J.xqVqmiIOXVMo235hmwS1Am/TfbgkZl2",
+  "firstName": "Swaraj",
+  "middleName": "Santosh",
+  "lastName": "Nalawade",
+  "phoneNumber": "9960020707",
+  "address": "F-10, 3rd Floor Galaxy Arcade, Left Bhusari Colony, Kothrud",
+  "age": 21,
+  "gender": "male",
+  "about": "I enjoy driving while vibing on fav music.",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "Toyota",
+    "model": "Innova Crysta",
+    "year": "2020",
+    "licensePlate": "MH 10 CE 4141",
+    "type": "diesel"
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740637462/profile_pictures/e8iocqltxpfksbbf1pi7.jpg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T06:24:23.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-07-28T07:24:13.896Z"
+  },
+  "__v": 1,
+  "averageRating": 0,
+  "reviews": [],
+  "ridesOffered": 0,
+  "ridesTaken": 0
+},
+{
+  "_id": {
+    "$oid": "67c0064e5d691bf0a4aa0229"
+  },
+  "email": "swaraj.nalawade2004@gmail.com",
+  "password": "$2b$10$6PPS4Vc97PHjjR4RFru.H.hiXGTAM39lCVEiGaosUHxvjSzrKx7Ou",
+  "firstName": "Swaraj",
+  "middleName": "Santosh",
+  "lastName": "Nalawade",
+  "phoneNumber": "9960020707",
+  "address": "Left Bhusari Colony, Kothrud, Pune - 411038",
+  "age": 21,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740637773/profile_pictures/bzcsao99fdgzbduiyonp.jpg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T06:29:34.770Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T06:29:49.825Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c0128d5d691bf0a4aa0477"
+  },
+  "email": "collegevirat07@gmail.com",
+  "password": "$2b$10$YsX.543cq4FopOmXz9BAl.3zn/LhxREq00ettWcJr/3I60pii0E2a",
+  "firstName": "Virat",
+  "middleName": "Anil",
+  "lastName": "kulkarni",
+  "phoneNumber": "8208370690",
+  "address": "001,krushna kunj building, behind petrol pump,tembhode road ,palghar 401 404",
+  "age": 23,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740640908/profile_pictures/kx7pod5licnnybuxd8lc.png",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T07:21:49.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-09T06:33:47.253Z"
+  },
+  "__v": 0,
+  "isMember": true
+},
+{
+  "_id": {
+    "$oid": "67c014e95d691bf0a4aa0522"
+  },
+  "email": "ssnalawade04@gmail.com",
+  "password": "$2b$10$5cgY14RHl3DD7jU1TQYVnOGnyCQ7WC1pIP06IcUTwhWJg9eY6OEdy",
+  "firstName": "Swaraj ",
+  "middleName": "Santosh",
+  "lastName": "Nalawade",
+  "phoneNumber": "9960020707",
+  "address": "Kavalapur ",
+  "age": 21,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "Mahindra",
+    "model": "Marazzo",
+    "year": "2019",
+    "licensePlate": "MH 10 CE 1213",
+    "type": "diesel"
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740641512/profile_pictures/jlzvwn9r38evs7nzgu1s.jpg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T07:31:53.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T13:11:45.314Z"
+  },
+  "__v": 2,
+  "averageRating": 4,
+  "reviews": [
+    {
+      "$oid": "67c063652043102281dfe3bf"
+    },
+    {
+      "$oid": "67c06491fae4cddb2feb817d"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67c0489a49d19f7d9eeb6454"
+  },
+  "email": "lalitplaygames@gmail.com",
+  "password": "$2b$10$5iZ8Oc/l.VierTZx/ckwuem6kzLMTq2qhLqLzlU9qR/EUbr0iCZ4m",
+  "firstName": "Lalit",
+  "middleName": "",
+  "lastName": "Mohane",
+  "phoneNumber": "7979797979",
+  "address": "123, sanjay buillding, trimurti chowk, Pune",
+  "age": 20,
+  "gender": "male",
+  "about": "Hello I am from developing team",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "v",
+    "model": "y",
+    "year": "2024",
+    "licensePlate": "MH487CK9597",
+    "type": "cng"
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": true,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740654745/profile_pictures/y2jiux53dj7ni1zj9ve9.jpg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T11:12:26.201Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T14:26:06.441Z"
+  },
+  "__v": 1,
+  "averageRating": 0,
+  "reviews": [],
+  "ridesOffered": 1,
+  "ridesTaken": 0
+},
+{
+  "_id": {
+    "$oid": "67c0b179ef1fd7a35ee97cb7"
+  },
+  "email": "sahilkv44@gmail.com",
+  "password": "$2b$10$racefi7cY.FIRIX.4PKqMO9Go.mU/XRX6sXbtGsfLaSa1e.Ydx8AO",
+  "firstName": "Hello",
+  "middleName": "",
+  "lastName": "World",
+  "phoneNumber": "1234567890",
+  "address": "Pune",
+  "age": 99,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740681592/profile_pictures/t6rzouikdjgbe3fszn28.webp",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-27T18:39:53.742Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T18:54:21.476Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c1a604ef1fd7a35ee98051"
+  },
+  "email": "shounakmulay04@gmail.com",
+  "password": "$2b$10$Lz.Vt4CNMCuXZM.HCj4Fb.eMg8dYusF8gcIDeGLdOLSPVRtIip7.q",
+  "firstName": "Shounak",
+  "middleName": "",
+  "lastName": "Mulay",
+  "phoneNumber": "7559179362",
+  "address": "Heramb Residency, Bhujbal Township,Kothrud Pune-38\r\nFlat No 5501",
+  "age": 20,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": true,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740744196/profile_pictures/lclhi9jmgghomjmc2oug.jpg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-02-28T12:03:16.745Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-28T12:03:42.870Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c575b9ef1fd7a35ee981b8"
+  },
+  "email": "gamebrain331@gmail.com",
+  "password": "$2b$10$3w/8piY52pOtWFXhqh48Me76Os7ln1OGvXJK2owion6Tc0crpfYtG",
+  "firstName": "Jesus",
+  "middleName": "Allah",
+  "lastName": "Yesu",
+  "phoneNumber": "123456789",
+  "address": "Darbar-e-Cross, Jannat",
+  "age": 90000,
+  "gender": "other",
+  "about": "uhmmnnn...........💦",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dxuxjltav/image/upload/v1740993975/profile_pictures/yq8rparxnreoonivxa1l.svg",
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-03-03T09:26:17.917Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-03T09:30:05.327Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cd36f0d9fbddabedbf510d"
+  },
+  "email": "kulkarnikalpak15@gmail.com",
+  "password": "$2b$10$9bIfAuOIZbasG6k24h5Qv.b.ubMq6qJrgzR6pYPmYcufIDoA61oba",
+  "firstName": "kalpak",
+  "middleName": "kalpak",
+  "lastName": "kulkarni",
+  "phoneNumber": "8208370690",
+  "address": "001,krushna kunj building, behind petrol pump,tembhode road ,palghar 401 404",
+  "age": 23,
+  "gender": "male",
+  "about": "Aee vedya",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "XUV",
+    "model": "sexy",
+    "year": "naugty",
+    "licensePlate": "America",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": "https://res.cloudinary.com/dcoqj7jac/image/upload/v1741502192/profile_pictures/du7oriywiowjw9jbvudj.png",
+  "isEmailVerified": true,
+  "isMember": true,
+  "createdAt": {
+    "$date": "2025-03-09T06:36:32.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-09T06:57:21.979Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6805402eef1fd7a35ee983dc"
+  },
+  "email": "user1@gmail.com",
+  "password": "$2b$10$QM9Xcf3XdvLZHsvzFJgy6O/hmlyX0J9rFc8sUyX/YS81T0MUjRstG",
+  "firstName": "user1",
+  "middleName": "",
+  "lastName": "user2",
+  "phoneNumber": "1234567777",
+  "address": "qwqwqw",
+  "age": 20,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": null,
+  "isEmailVerified": false,
+  "createdAt": {
+    "$date": "2025-04-20T18:42:54.348Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-20T18:42:54.437Z"
+  },
+  "__v": 0,
+  "emailVerificationToken": "384187",
+  "emailVerificationTokenExpires": {
+    "$date": "2025-04-20T18:57:54.435Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68054132ef1fd7a35ee983e0"
+  },
+  "email": "hushar2024@gmail.com",
+  "password": "$2b$10$a4/GtfFYwRnH8Znw3aSuxuTMdxPjXUIEnY./KIlxCHyuDKgpUD8Ei",
+  "firstName": "user1",
+  "middleName": "",
+  "lastName": "user2",
+  "phoneNumber": "9112348199",
+  "address": "qwqw",
+  "age": 18,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "car",
+    "model": "z2",
+    "year": "2022",
+    "licensePlate": "123133",
+    "type": "petrol"
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": null,
+  "isEmailVerified": false,
+  "createdAt": {
+    "$date": "2025-04-20T18:47:14.390Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-20T18:47:14.467Z"
+  },
+  "__v": 0,
+  "emailVerificationToken": "731763",
+  "emailVerificationTokenExpires": {
+    "$date": "2025-04-20T19:02:14.465Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6807a87bef1fd7a35ee983e7"
+  },
+  "email": "samkaran0912@gmail.com",
+  "password": "$2b$10$8YGH5TxJVP/XGATJaq8Hmuckhmqc7sydRyA0lsuI4fqCRHA5Sg7by",
+  "firstName": "sam1",
+  "middleName": "",
+  "lastName": "sam1",
+  "phoneNumber": "9112348199",
+  "address": "jhjbdj asbab bdqbdj",
+  "age": 21,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": true,
+  "vehicleDetails": {
+    "make": "car",
+    "model": "z2",
+    "year": "2022",
+    "licensePlate": "1212d",
+    "type": "petrol"
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": null,
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2025-04-22T14:32:27.508Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-22T14:33:40.983Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683699ae2969204c50a3621e"
+  },
+  "email": "kulkarnimadhura77@gmail.com",
+  "password": "$2b$10$.PRI9ppQqJlzcrE59LH.O.79Fwe87GxmIteq3CQCi0HZ2V4b47ZzS",
+  "firstName": "kalpakkalpak",
+  "middleName": "anil",
+  "lastName": "kulkarni",
+  "phoneNumber": "8208370690",
+  "address": "001,krushna kunj building, behind petrol pump,tembhode road ,palghar 401 404",
+  "age": 18,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": null,
+  "isEmailVerified": true,
+  "isMember": false,
+  "createdAt": {
+    "$date": "2025-05-28T05:05:50.017Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-28T17:37:42.726Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68b5e5dfed6d6caafa41ec78"
+  },
+  "email": "shanmukhsep17@gmail.com",
+  "password": "$2b$10$3LJaNy/whqCmusD6A9sY2.q7yjVpctKo7itWaHiFbjdP/NQbRcmUq",
+  "firstName": "shanmukh",
+  "middleName": "",
+  "lastName": "akkala",
+  "phoneNumber": "9390678159",
+  "address": "Banjara Hills,Hyderabad",
+  "age": 20,
+  "gender": "male",
+  "about": "",
+  "hasVehicle": false,
+  "vehicleDetails": {
+    "make": "",
+    "model": "",
+    "year": "",
+    "licensePlate": "",
+    "type": ""
+  },
+  "preferences": {
+    "smokingAllowed": false,
+    "petsAllowed": false,
+    "musicAllowed": true
+  },
+  "profilePicture": null,
+  "isEmailVerified": true,
+  "isMember": false,
+  "createdAt": {
+    "$date": "2025-09-01T18:28:48.035Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-01T18:30:01.399Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,8 @@
+# Ignore node_modules for both frontend and backend
+node_modules/
+Carpooling_Frontend/node_modules/
+Carpooling_Backend/node_modules/
+Carpooling_Backend/rzp.csv
+
+# Ignore environment files
+**/.env
