@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+
+  backend:
+    image: kalpak15/ride_buddy_backend
+    ports:
+      - 3000:3000
+    env_file:
+      - ./Carpooling_Backend/.env
+
+  frontend:
+    build:
+     context: ./Carpooling_Frontend
+     args:
+      VITE_key_id: your-key
+      VITE_key_secret: your-secret
+      VITE_API_URL: http://backend:3000
+
+    ports:
+      - 5173:5173
+
