@@ -10,13 +10,7 @@ services:
       - ./Carpooling_Backend/.env
 
   frontend:
-    build:
-     context: ./Carpooling_Frontend
-     args:
-      VITE_key_id: your-key
-      VITE_key_secret: your-secret
-      VITE_API_URL: http://backend:3000
-
+    build: ./Carpooling_Frontend
     ports:
       - 5173:5173
 
