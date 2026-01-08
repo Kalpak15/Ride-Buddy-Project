@@ -177,6 +177,9 @@ function CreateRide() {
 
     // Validate date and time against current date and time
     const currentDateTime = new Date();
+
+    console.log(currentDateTime)
+
     const selectedDateTime = new Date(`${ride.date}T${ride.time}`);
 
     if (selectedDateTime < currentDateTime) {

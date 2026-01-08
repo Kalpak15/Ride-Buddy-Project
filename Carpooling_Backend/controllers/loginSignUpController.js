@@ -62,11 +62,27 @@ const signup = async (req, res) => {
       const uploadResult = await cloudinary.uploader.upload(req.file.path, {
         folder: "profile_pictures",
       });
+<<<<<<< HEAD
+       
+      console.log("req.file is :",req.file)
+      console.log("req.file.path is :",req.file.path)
+      console.log("UploadResult is :",uploadResult)
+
+=======
+>>>>>>> origin/main
       profilePicture = {
         url: uploadResult.secure_url,
         publicId: uploadResult.public_id,
       };
+<<<<<<< HEAD
+      
+      console.log("Profilepicure is:" ,profilePicture)
+
       fs.unlinkSync(req.file.path);
+
+=======
+      fs.unlinkSync(req.file.path);
+>>>>>>> origin/main
     }
 
     const newUser = await User.create({
@@ -144,6 +160,10 @@ const login = async (req, res) => {
       {
         userId: user._id,
         email: user.email,
+<<<<<<< HEAD
+        userPhoneNo: user.phoneNumber,
+=======
+>>>>>>> origin/main
         name: user.firstName + " " + user.lastName,
       },
       process.env.JWT_SECRET_KEY,

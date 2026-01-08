@@ -80,7 +80,7 @@ function FindRides() {
     const fetchRides = async () => {
       try {
         const response = await axios.get(
-          `${PORT}/find-ride`,
+          `${PORT}/api/v1/find-ride`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

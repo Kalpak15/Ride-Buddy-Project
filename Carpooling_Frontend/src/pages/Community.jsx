@@ -9,6 +9,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmojiPicker from "emoji-picker-react";
+import { jwtDecode } from "jwt-decode";
+
 import {
   Send,
   MessageCircle,
@@ -132,6 +134,8 @@ function Community() {
  
      
     const token = localStorage.getItem("token");
+
+    
     // Step 1: Create an order on the backend
     const orderResponse = await axios.post(
       `${PORT}/api/v1/payments/create-order`,
@@ -144,8 +148,9 @@ function Community() {
     }
     const orderId = orderResponse.data.orderId;
 
+    
+    const userInfo = jwtDecode(token);
     const options = {
-
       key: razorpayKey,
       amount: 100,
       currency: "INR",
@@ -157,10 +162,11 @@ function Community() {
         // Payment successful
         handlePaymentSuccess(response);
       },
-      prefill: {
-        name: "User Name", // You can get this from user profile if available
-        email: "user@example.com",
-        contact: "9999999999"
+
+      prefill: {    
+        name: userInfo.name, // You can get this from user profile if available
+        email: userInfo.email,
+        contact: userInfo.userPhoneNo
       },
       notes: {
         userId: currentUserId

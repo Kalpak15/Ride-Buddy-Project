@@ -17,7 +17,8 @@ exports.createRide = async (req, res) => {
     }
     
     const userMember = await User.findOne({ _id: user_id, isMember: true });
-    if(userMember){
+
+    if(!userMember){
       return res.status(404).json({ message: "User is Not A Member" });
     }else{
       console.log("User is a Member")
