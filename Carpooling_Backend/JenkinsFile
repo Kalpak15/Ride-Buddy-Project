@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+    stages{
+        
+        stage('Code fetch from git'){
+            steps{
+                echo "This is the git"
+                git url:"https://github.com/Kalpak15/Ride-Buddy-Project.git" , branch:"main"
+            }
+        }
+        
+        stage('Fetching Environments'){
+           steps{
+                withCredentials([file(credentialsId: 'backend-env-file', variable: 'BACKEND_ENV')]){
+                   sh '''
+                    cp $BACKEND_ENV  ./Carpooling_Backend/.env
+                     '''
+                }
+                withCredentials([file(credentialsId: 'frontend-env-file', variable: 'FRONTEND_ENV')]){
+                   sh ''' 
+                    cp $FRONTEND_ENV ./Carpooling_Frontend/.env
+                      '''
+                }
+             }
+         }
+         
+        stage('build from docker'){
+            steps{
+                sh "docker-compose down"
+                sh "docker-compose up -d"
+            }
+        }
+        
+    }
+}
+
