@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+
+  backend:
+    image: kalpak15/ride_buddy_backend
+    ports:
+      - 3000:3000
+    env_file:
+      - ./Carpooling_Backend/.env
+
+  frontend:
+    build: ./Carpooling_Frontend
+    ports:
+      - 5173:5173
+

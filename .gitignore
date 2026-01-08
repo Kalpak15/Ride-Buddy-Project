@@ -2,5 +2,6 @@
 node_modules/
 Carpooling_Frontend/node_modules/
 Carpooling_Backend/node_modules/
-
 .env
+Carpooling_Backend/rzp.csv
+
