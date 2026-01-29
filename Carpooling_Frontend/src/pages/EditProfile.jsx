@@ -168,10 +168,14 @@ function EditProfile() {
         }
       );
 
+     
+
       toast.success("Profile picture updated!");
       setProfile((prev) => ({
         ...prev,
-        profilePicture: response.data.user.profilePicture,
+        // profilePicture: response.data.user.profilePicture,
+        profilePicture: response.data.user.profilePicture + "?t=" + new Date().getTime(),
+
       }));
     } catch (error) {
       console.error("Error uploading profile picture:", error);

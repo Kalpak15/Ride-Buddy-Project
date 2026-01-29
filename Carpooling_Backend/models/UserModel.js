@@ -41,8 +41,17 @@ const userSchema = new mongoose.Schema({
   isEmailVerified: { type: Boolean, default: false },
   emailVerificationToken: { type: String },
   emailVerificationTokenExpires: { type: Date },
-  isMember: { type: Boolean, default: false }
+  isMember: { type: Boolean, default: false },
+  authProvider: {
+  type: String,
+  enum: ["local", "google"],
+  default: "local"},
+  googleId: {
+    type: String,
+    default: null
+  }
 }, { timestamps: true });
+
 
 const User = mongoose.model("User", userSchema);
 

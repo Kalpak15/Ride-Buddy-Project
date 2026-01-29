@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Mail, Lock, Car, Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
+import GoogleButton from '../components/GoogleButton';
+
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -149,6 +149,16 @@ function LoginPage() {
           >
             Log In
           </button>
+          
+          {/* <button onClick={() => window.location.href = "http://localhost:3000/auth/google"}>
+            Login with Google
+          </button>
+           */}
+
+          <GoogleButton />
+                     
+
+
 
           {/* Sign Up Link */}
           <p className="text-center text-sm text-gray-600">
@@ -160,6 +170,9 @@ function LoginPage() {
               Sign up
             </a>
           </p>
+          
+
+
           <p className="text-center text-sm text-gray-600">
             Change Password{" "}
             <a

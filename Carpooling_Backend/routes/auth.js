@@ -3,6 +3,7 @@ const router = express.Router();
 const { signup, login, changePassword, verifyEmail } = require('../controllers/loginSignUpController');
 const upload = require("../utils/multer"); 
 const {forgotPassword,verifyOTP,resetPassword,resendOTP} = require('../controllers/authController');
+const { googleAuth, googleCallback } = require("../controllers/googleAuthController");
 
 
 
@@ -15,5 +16,10 @@ router.post('/forgot-password', forgotPassword);
 router.post('/verify-otp', verifyOTP);
 router.post('/reset-password', resetPassword);
 router.post('/resend-otp', resendOTP);
+
+// Google OAuth
+router.get("/google", googleAuth);
+router.get("/google/callback", googleCallback);
+
 
 module.exports = router; 

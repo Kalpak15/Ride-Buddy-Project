@@ -541,6 +541,11 @@ function SignUp() {
             )}
           </button>
 
+          <button onClick={() => window.location.href = "http://localhost:3000/auth/google"}>
+            Signup with Google
+          </button>
+
+
           <p className="text-center text-sm text-gray-600">
             Already have an account?{" "}
             <a

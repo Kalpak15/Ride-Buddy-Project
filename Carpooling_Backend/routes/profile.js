@@ -4,6 +4,7 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const upload = require("../utils/multer");
 const User = require("../models/UserModel");
 
+require('dotenv').config()
 
 const { getProfile ,updateProfile} = require("../controllers/profileController");
 
@@ -14,7 +15,9 @@ router.put("/upload-profile-picture/:userId", upload.single("profilePicture"), a
         return res.status(400).json({ message: "No file uploaded" });
       }
   
-      const imageUrl = `/uploads/${req.file.filename}`; // Path to access uploaded image
+      // const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`; // Path to access uploaded image
+      // ${req.protocol}://${req.get("host")}/uploads/${req.file.filename}
+      const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`; // Path to access uploaded image
   
       // Update user profile picture in the database
       const updatedUser = await User.findByIdAndUpdate(req.params.userId, { profilePicture: imageUrl }, { new: true });

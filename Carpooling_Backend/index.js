@@ -15,12 +15,30 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// app.use(cors({
+//     origin: 'http://localhost:5173', // frontend URL
+//     credentials: true,
+//     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+//     allowedHeaders: ['Content-Type','Authorization']
+// }));
+
+// // Preflight OPTIONS handler (very important for POST/PUT)
+// app.options('*', cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true,
+//     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+//     allowedHeaders: ['Content-Type','Authorization']
+// }));
+
 app.use(cors());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 dbConnect();
 
+app.use("/auth",auth);
 
 app.use("/api/v1", carpool);
 app.use("/api/v1/profile", profile);

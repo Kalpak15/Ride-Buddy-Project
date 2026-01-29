@@ -26,7 +26,8 @@ import VerifyEmailPage from "./pages/VerifyEmail";
 import RidesOffered from "./pages/RidesOffered";
 import RidesTaken from "./pages/RidesTaken";
 import Community from "./pages/Community";
-
+import OAuthFailed from "./pages/OAuthFailed";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
 function App() {
   const dispatch = useDispatch();
@@ -127,6 +128,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />  
+        <Route path="/oauth-failed" element={<OAuthFailed />} />    
         <Route
           path="/book-ride/:id"
           element={

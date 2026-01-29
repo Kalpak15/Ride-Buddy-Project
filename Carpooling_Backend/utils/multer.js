@@ -7,8 +7,12 @@ const storage = multer.diskStorage({
     const uploadPath = path.join(__dirname, "../uploads");
     cb(null, uploadPath); // Ensures the directory path is absolute
   },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // Timestamp for unique filenames
+  // filename: (req, file, cb) => {
+  //   cb(null, `${Date.now()}-${file.originalname}`); // Timestamp for unique filenames
+  // },
+  filename: function (req, file, cb) {
+    const cleanName = file.originalname.replace(/\s+/g, "_"); // remove spaces
+    cb(null, Date.now() + "-" + cleanName); // unique filename
   },
 });
 
