@@ -71,6 +71,7 @@ exports.createRide = async (req, res) => {
     });
 
     const savedRide = await newRide.save();
+    console.log(savedRide)
 
     await createNotification(
       user_id,
