@@ -7,13 +7,20 @@ const reviews = require("./routes/reviews");
 const paymentRoutes = require("./routes/carpool");
 const notificationRoutes = require("./routes/notifications");
 const communityRoutes = require("./routes/community");
-
-const cors = require("cors");
 const dbConnect = require("./config/database");
-require("dotenv").config();
+const session = require('express-session');
+const passport = require('./config/passport');
+const cors = require("cors");
 
 const app = express();
+require("dotenv").config();
 const PORT = process.env.PORT || 4000;
+
+/* OAuth Middleware */
+app.use(passport.initialize());
+app.use(passport.session());
+// const base");
+
 
 // app.use(cors({
 //     origin: 'http://localhost:5173', // frontend URL

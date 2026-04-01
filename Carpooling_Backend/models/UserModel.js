@@ -42,13 +42,10 @@ const userSchema = new mongoose.Schema({
   emailVerificationToken: { type: String },
   emailVerificationTokenExpires: { type: Date },
   isMember: { type: Boolean, default: false },
-  authProvider: {
-  type: String,
-  enum: ["local", "google"],
-  default: "local"},
   googleId: {
     type: String,
-    default: null
+    allowNull:true,
+
   }
 }, { timestamps: true });
 
