@@ -53,6 +53,7 @@ exports.getRide = async (req, res) => {
             message: "Ride fetched successfully",
             ride: ride,
         });
+        
     } catch (err) {
         console.error(err);
 

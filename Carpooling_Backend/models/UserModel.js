@@ -42,10 +42,10 @@ const userSchema = new mongoose.Schema({
   emailVerificationToken: { type: String },
   emailVerificationTokenExpires: { type: Date },
   isMember: { type: Boolean, default: false },
+  isKycVerified:{type:Boolean,default:false},
   googleId: {
     type: String,
-    allowNull:true,
-
+    allowNull:true
   }
 }, { timestamps: true });
 

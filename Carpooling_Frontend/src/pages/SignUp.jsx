@@ -541,9 +541,9 @@ function SignUp() {
             )}
           </button>
 
-          <button onClick={() => window.location.href = "http://localhost:3000/auth/google"}>
+          {/* <button onClick={() => window.location.href = "http://localhost:3000/auth/google"}>
             Signup with Google
-          </button>
+          </button> */}
 
 
           <p className="text-center text-sm text-gray-600">

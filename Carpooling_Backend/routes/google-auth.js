@@ -14,12 +14,15 @@ router.get(
 /* Callback route for OAuth2 authentication */
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/login" }),
   function (req, res) {
-    // Successful authentication
+    
     console.log(req.user);
+    console.log(req.session)
+    console.log(req.user.id)
     req.session.save(() => {
-      res.redirect("/");  // Edit for correct redirect link
+
+      res.redirect(`http://localhost:5173/profile/${req.user.id}`);  // Edit for correct redirect link
     });
   }
 );

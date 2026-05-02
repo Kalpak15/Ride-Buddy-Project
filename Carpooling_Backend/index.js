@@ -8,17 +8,25 @@ const paymentRoutes = require("./routes/carpool");
 const notificationRoutes = require("./routes/notifications");
 const communityRoutes = require("./routes/community");
 const dbConnect = require("./config/database");
-const session = require('express-session');
+var session = require('express-session')
 const passport = require('./config/passport');
 const cors = require("cors");
+const googleAuthRoutes = require("./routes/google-auth");
 
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}))
+
 /* OAuth Middleware */
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use(express.session())
 // const base");
 
 
@@ -45,7 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 
 dbConnect();
 
-app.use("/auth",auth);
+app.use("/auth",googleAuthRoutes);
 
 app.use("/api/v1", carpool);
 app.use("/api/v1/profile", profile);
@@ -53,6 +61,10 @@ app.use("/api/v1/auth", auth);
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/v1/reviews", reviews);
 
+
+// Payment Routes
+const payments = require("./routes/payment")
+app.use("/api/v1/orders",payments)
 
 app.use("/api/v1/payments", paymentRoutes);
 // Default Route
