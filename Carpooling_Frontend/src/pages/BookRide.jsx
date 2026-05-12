@@ -1,3 +1,9 @@
+
+
+
+
+
+
 // import React, { useEffect, useState } from "react";
 // import { useParams, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -25,27 +31,24 @@
 //   const [submitted, setSubmitted] = useState(false);
 //   const [bookingDetails, setBookingDetails] = useState(null);
 //   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const PORT=import.meta.env.VITE_API_URL
+//   const [showPaymentOptions, setShowPaymentOptions] = useState(false); // NEW
+//   const PORT = import.meta.env.VITE_API_URL;
 
 //   const [formData, setFormData] = useState({
 //     start: "",
 //     destination: "",
 //     seats: 1,
 //   });
-  
 
 //   useEffect(() => {
 //     const fetchRideDetails = async () => {
 //       try {
 //         const token = localStorage.getItem("token");
-//         const response = await axios.get(
-//           `${PORT}/api/v1/book-ride/${id}`,
-//           {
-//             headers: {
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
+//         const response = await axios.get(`${PORT}/api/v1/book-ride/${id}`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
 //         setRide(response.data.ride);
 //         setFormData({
 //           start: response.data.ride.start,
@@ -67,19 +70,21 @@
 //     setFormData({ ...formData, [name]: value });
 //   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
+//   // ─── Helper: load Razorpay script dynamically 
+//   const loadRazorpay = () => {
+//     return new Promise((resolve) => {
+//       if (window.Razorpay) return resolve(true); // already loaded
+//       const script = document.createElement("script");
+//       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+//       script.onload = () => resolve(true);
+//       script.onerror = () => resolve(false);
+//       document.body.appendChild(script);
+//     });
+//   };
 
-//     if (formData.start === formData.destination) {
-//       toast.error("Pickup and drop-off locations cannot be the same", {
-//         position: "top-right",
-//         autoClose: 3000,
-//       });
-//       return;
-//     }
-
+//   // ─── Pay Offline: same as old handleSubmit 
+//   const handleOfflineBooking = async () => {
 //     setIsSubmitting(true);
-
 //     try {
 //       const formDataToSend = {
 //         ...formData,
@@ -95,7 +100,6 @@
 //           },
 //         }
 //       );
-      
 
 //       setBookingDetails(response.data.bookingDetails);
 //       toast.success("Ride booked successfully!", {
@@ -125,6 +129,135 @@
 //     } finally {
 //       setIsSubmitting(false);
 //     }
+//   };
+
+//   // Pay Online: open Razorpay checkout 
+//   const handleOnlinePayment = async () => {
+//     const isLoaded = await loadRazorpay();
+//     if (!isLoaded) {
+//       toast.error("Failed to load payment gateway. Check your internet.");
+//       return;
+//     }
+
+//     try {
+//       const token = localStorage.getItem("token");
+
+//       // Step 1: Ask your backend to create a Razorpay order
+//       // YOUR BACKEND should return: { orderId, amount (in paise), currency, keyId }
+//       const orderRes = await axios.post(
+//         // `${PORT}/api/v1/orders/create-order${id}`,
+//         `${PORT}/api/v1/orders/create-order/${id}`,
+//         { seats: parseInt(formData.seats, 10) },
+//         { headers: { Authorization: `Bearer ${token}` } }
+//       );
+
+//       const { orderId, amount, currency, keyId } = orderRes.data.data;
+//       console.log(orderId, amount, currency, keyId )
+
+//       // Step 2: Open Razorpay popup
+//       const options = {
+//         key: keyId,
+//         amount: amount,
+//         currency: currency,
+//         order_id: orderId,
+//         name: "RideShare",
+//         description: `Ride from ${formData.start} to ${formData.destination}`,
+        
+        
+        
+//         // handler: async (paymentResponse) => {
+//         //   // Step 3: Payment done on Razorpay side → verify + book on your backend
+//         //   try {
+            
+            
+
+//         //     const verifyRes = await axios.post(
+//         //       `${PORT}/api/v1/orders/verify-order/${id}`,
+//         //       {
+//         //         ...formData,
+//         //         seats: parseInt(formData.seats, 10),
+//         //         razorpay_order_id: paymentResponse.razorpay_order_id,
+//         //         razorpay_payment_id: paymentResponse.razorpay_payment_id,
+//         //         razorpay_signature: paymentResponse.razorpay_signature,
+//         //       },
+//         //       { headers: { Authorization: `Bearer ${token}` } }
+//         //     );
+//         //     console.log(verifyRes.data.bookingDetails)
+//         //     setBookingDetails(verifyRes.data.bookingDetails);
+//         //     toast.success("Payment successful! Ride booked.", {
+//         //       position: "top-right",
+//         //       autoClose: 3000,
+//         //     });
+//         //     setSubmitted(true);
+//         //   } catch (err) {
+//         //     toast.error(
+//         //       "Payment done but booking failed. Please contact support.",
+//         //       { position: "top-right", autoClose: 5000 }
+//         //     );
+//         //   }
+//         // },
+//         handler: async (paymentResponse) => {
+              
+//           try {
+//                 // Step 1: verify signature
+//                 await axios.post(
+//                   `${PORT}/api/v1/orders/verify-order/${id}`,
+//                   {
+//                     ...formData,
+//                     seats: parseInt(formData.seats, 10),
+//                     razorpay_order_id: paymentResponse.razorpay_order_id,
+//                     razorpay_payment_id: paymentResponse.razorpay_payment_id,
+//                     razorpay_signature: paymentResponse.razorpay_signature,
+//                   },
+//                   { headers: { Authorization: `Bearer ${token}` } }
+//                 );
+
+//                 // Step 2: book ride + send email (same as offline)
+//                 await handleOfflineBooking();
+
+//               } catch (err) {
+//                 toast.error("Payment done but booking failed. Please contact support.",
+//                   { position: "top-right", autoClose: 5000 }
+//                 );
+//               }
+//             },
+
+//         prefill: {
+//           name: "",    // fill from your user profile if available
+//           email: "",
+//           contact: "",
+//         },
+//         theme: { color: "#3b82f6" },
+//       };
+
+//       const rzp = new window.Razorpay(options);
+//       rzp.open();
+//     } catch (err) {
+//       toast.error("Could not initiate payment. Please try again.", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       console.error(err);
+//     }
+//   };
+
+//   // ─── "Confirm Booking" click: validate then show payment options ─────────────
+//   const handleConfirmClick = () => {
+//     if (formData.start === formData.destination) {
+//       toast.error("Pickup and drop-off locations cannot be the same", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       return;
+//     }
+//     if (!formData.seats || formData.seats < 1) {
+//       toast.error("Please select at least 1 seat", {
+//         position: "top-right",
+//         autoClose: 3000,
+//       });
+//       return;
+//     }
+//     setShowPaymentOptions(true);
 //   };
 
 //   if (loading) {
@@ -182,7 +315,7 @@
 //                   {bookingDetails.driverEmail}
 //                 </p>
 //                 <p className="text-sm text-gray-500 mt-2">
-//                   You’ll receive an email with these details shortly.
+//                   You'll receive an email with these details shortly.
 //                 </p>
 //               </div>
 //             )}
@@ -206,7 +339,6 @@
 //                   Ride Details
 //                 </h2>
 //                 <div className="space-y-4">
-//                   {/* Route Information */}
 //                   <div className="flex items-center space-x-2">
 //                     <MapPin className="w-5 h-5 text-blue-500" />
 //                     <div className="flex-1">
@@ -224,7 +356,6 @@
 //                     </div>
 //                   </div>
 
-//                   {/* Stops */}
 //                   {ride.stops && ride.stops.length > 0 && (
 //                     <div className="mb-6">
 //                       <div className="text-sm text-gray-500 mb-2">Stops</div>
@@ -241,7 +372,6 @@
 //                     </div>
 //                   )}
 
-//                   {/* Time and Date */}
 //                   <div className="grid grid-cols-2 gap-4">
 //                     <div className="flex items-center text-gray-600">
 //                       <Calendar className="w-4 h-4 mr-2 text-blue-500" />
@@ -267,7 +397,7 @@
 //                 <h2 className="text-xl font-semibold text-gray-800 mb-6">
 //                   Your Booking Details
 //                 </h2>
-//                 <form onSubmit={handleSubmit} className="space-y-6">
+//                 <div className="space-y-6">
 //                   <div className="space-y-4">
 //                     <div>
 //                       <label
@@ -345,36 +475,75 @@
 //                     </div>
 //                   </div>
 
-//                   <button
-//                     type="submit"
-//                     className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
-//                     disabled={isSubmitting}
-//                   >
-//                     <span>Confirm Booking</span>
-//                     {isSubmitting && (
-//                       <svg
-//                         className="animate-spin h-5 w-5 text-white"
-//                         xmlns="http://www.w3.org/2000/svg"
-//                         fill="none"
-//                         viewBox="0 0 24 24"
+//                   {/* ── PAYMENT SECTION ── */}
+//                   {!showPaymentOptions ? (
+//                     // Step 1: Show "Confirm Booking" button
+//                     <button
+//                       type="button"
+//                       onClick={handleConfirmClick}
+//                       className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300"
+//                     >
+//                       Confirm Booking
+//                     </button>
+//                   ) : (
+//                     // Step 2: Show two payment options
+//                     <div className="space-y-3">
+//                       <p className="text-center text-sm font-semibold text-gray-600 mb-1">
+//                         Choose Payment Method
+//                       </p>
+
+//                       {/* Pay Online */}
+//                       <button
+//                         type="button"
+//                         onClick={handleOnlinePayment}
+//                         className="w-full bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2"
 //                       >
-//                         <circle
-//                           className="opacity-25"
-//                           cx="12"
-//                           cy="12"
-//                           r="10"
-//                           stroke="currentColor"
-//                           strokeWidth="4"
-//                         ></circle>
-//                         <path
-//                           className="opacity-75"
-//                           fill="currentColor"
-//                           d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
-//                         ></path>
-//                       </svg>
-//                     )}
-//                   </button>
-//                 </form>
+//                         💳 Pay Online (Razorpay)
+//                       </button>
+
+//                       {/* Pay Offline */}
+//                       <button
+//                         type="button"
+//                         onClick={handleOfflineBooking}
+//                         disabled={isSubmitting}
+//                         className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-60"
+//                       >
+//                         🤝 Pay Offline (Pay Driver Directly)
+//                         {isSubmitting && (
+//                           <svg
+//                             className="animate-spin h-5 w-5 text-white"
+//                             xmlns="http://www.w3.org/2000/svg"
+//                             fill="none"
+//                             viewBox="0 0 24 24"
+//                           >
+//                             <circle
+//                               className="opacity-25"
+//                               cx="12"
+//                               cy="12"
+//                               r="10"
+//                               stroke="currentColor"
+//                               strokeWidth="4"
+//                             ></circle>
+//                             <path
+//                               className="opacity-75"
+//                               fill="currentColor"
+//                               d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
+//                             ></path>
+//                           </svg>
+//                         )}
+//                       </button>
+
+//                       {/* Go back */}
+//                       <button
+//                         type="button"
+//                         onClick={() => setShowPaymentOptions(false)}
+//                         className="w-full text-gray-400 hover:text-gray-600 text-sm underline pt-1"
+//                       >
+//                         ← Go back
+//                       </button>
+//                     </div>
+//                   )}
+//                 </div>
 //               </div>
 //             </div>
 //           </>
@@ -385,9 +554,6 @@
 // }
 
 // export default BookRide;
-
-
-
 
 
 import React, { useEffect, useState } from "react";
@@ -417,7 +583,7 @@ function BookRide() {
   const [submitted, setSubmitted] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPaymentOptions, setShowPaymentOptions] = useState(false); // NEW
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const PORT = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
@@ -456,10 +622,10 @@ function BookRide() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // ─── Helper: load Razorpay script dynamically ───────────────────────────────
+
   const loadRazorpay = () => {
     return new Promise((resolve) => {
-      if (window.Razorpay) return resolve(true); // already loaded
+      if (window.Razorpay) return resolve(true);
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
@@ -468,8 +634,8 @@ function BookRide() {
     });
   };
 
-  // ─── Pay Offline: same as old handleSubmit ───────────────────────────────────
-  const handleOfflineBooking = async () => {
+  
+  const handleBookRide = async () => {
     setIsSubmitting(true);
     try {
       const formDataToSend = {
@@ -517,7 +683,7 @@ function BookRide() {
     }
   };
 
-  // Pay Online: open Razorpay checkout 
+  // ─── Pay Online: open Razorpay checkout
   const handleOnlinePayment = async () => {
     const isLoaded = await loadRazorpay();
     if (!isLoaded) {
@@ -528,19 +694,15 @@ function BookRide() {
     try {
       const token = localStorage.getItem("token");
 
-      // Step 1: Ask your backend to create a Razorpay order
-      // YOUR BACKEND should return: { orderId, amount (in paise), currency, keyId }
       const orderRes = await axios.post(
-        // `${PORT}/api/v1/orders/create-order${id}`,
         `${PORT}/api/v1/orders/create-order/${id}`,
         { seats: parseInt(formData.seats, 10) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const { orderId, amount, currency, keyId } = orderRes.data.data;
-      console.log(orderId, amount, currency, keyId )
+      console.log(orderId, amount, currency, keyId);
 
-      // Step 2: Open Razorpay popup
       const options = {
         key: keyId,
         amount: amount,
@@ -548,11 +710,12 @@ function BookRide() {
         order_id: orderId,
         name: "RideShare",
         description: `Ride from ${formData.start} to ${formData.destination}`,
+
         handler: async (paymentResponse) => {
-          // Step 3: Payment done on Razorpay side → verify + book on your backend
           try {
-            const verifyRes = await axios.post(
-              `${PORT}/api/v1/verify-payment-and-book/${id}`,
+            // Step 1: verify signature
+            await axios.post(
+              `${PORT}/api/v1/orders/verify-order/${id}`,
               {
                 ...formData,
                 seats: parseInt(formData.seats, 10),
@@ -562,12 +725,9 @@ function BookRide() {
               },
               { headers: { Authorization: `Bearer ${token}` } }
             );
-            setBookingDetails(verifyRes.data.bookingDetails);
-            toast.success("Payment successful! Ride booked.", {
-              position: "top-right",
-              autoClose: 3000,
-            });
-            setSubmitted(true);
+
+            // Step 2: book ride + send email
+            await handleBookRide();
           } catch (err) {
             toast.error(
               "Payment done but booking failed. Please contact support.",
@@ -575,8 +735,9 @@ function BookRide() {
             );
           }
         },
+
         prefill: {
-          name: "",    // fill from your user profile if available
+          name: "",
           email: "",
           contact: "",
         },
@@ -594,7 +755,7 @@ function BookRide() {
     }
   };
 
-  // ─── "Confirm Booking" click: validate then show payment options ─────────────
+  // ─── "Confirm Booking" click: validate then trigger payment
   const handleConfirmClick = () => {
     if (formData.start === formData.destination) {
       toast.error("Pickup and drop-off locations cannot be the same", {
@@ -610,7 +771,7 @@ function BookRide() {
       });
       return;
     }
-    setShowPaymentOptions(true);
+    handleOnlinePayment();
   };
 
   if (loading) {
@@ -672,10 +833,6 @@ function BookRide() {
                 </p>
               </div>
             )}
-            <p className="text-red-600 font-medium mb-6">
-              Warning: Do not pay online before you reach your driver, as it may
-              lead to a scam.
-            </p>
             <button
               onClick={() => navigate("/")}
               className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300"
@@ -828,74 +985,15 @@ function BookRide() {
                     </div>
                   </div>
 
-                  {/* ── PAYMENT SECTION ── */}
-                  {!showPaymentOptions ? (
-                    // Step 1: Show "Confirm Booking" button
-                    <button
-                      type="button"
-                      onClick={handleConfirmClick}
-                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300"
-                    >
-                      Confirm Booking
-                    </button>
-                  ) : (
-                    // Step 2: Show two payment options
-                    <div className="space-y-3">
-                      <p className="text-center text-sm font-semibold text-gray-600 mb-1">
-                        Choose Payment Method
-                      </p>
-
-                      {/* Pay Online */}
-                      <button
-                        type="button"
-                        onClick={handleOnlinePayment}
-                        className="w-full bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2"
-                      >
-                        💳 Pay Online (Razorpay)
-                      </button>
-
-                      {/* Pay Offline */}
-                      <button
-                        type="button"
-                        onClick={handleOfflineBooking}
-                        disabled={isSubmitting}
-                        className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-60"
-                      >
-                        🤝 Pay Offline (Pay Driver Directly)
-                        {isSubmitting && (
-                          <svg
-                            className="animate-spin h-5 w-5 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
-                            ></path>
-                          </svg>
-                        )}
-                      </button>
-
-                      {/* Go back */}
-                      <button
-                        type="button"
-                        onClick={() => setShowPaymentOptions(false)}
-                        className="w-full text-gray-400 hover:text-gray-600 text-sm underline pt-1"
-                      >
-                        ← Go back
-                      </button>
-                    </div>
-                  )}
+                  {/* ── Confirm & Pay Button ── */}
+                  <button
+                    type="button"
+                    onClick={handleConfirmClick}
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-300 disabled:opacity-60"
+                  >
+                    💳 Confirm & Pay Online
+                  </button>
                 </div>
               </div>
             </div>

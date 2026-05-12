@@ -47,6 +47,7 @@ exports.getRide = async (req, res) => {
         if (!ride) {
             return res.status(404).json({ message: "Ride not found" });
         }
+        
 
         // Send success response with ride data
         res.status(200).json({
