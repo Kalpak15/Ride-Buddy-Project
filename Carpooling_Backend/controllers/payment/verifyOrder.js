@@ -1,6 +1,7 @@
 const Razorpay = require("razorpay")
 const crypto = require("crypto")
 const Ride = require("../../models/RideModel")
+const Payment = require("../../models/PaymentModel")
 require("dotenv").config();
 
 var instance = new Razorpay({ key_id: process.env.key_id, key_secret: process.env.key_secret })
@@ -41,8 +42,10 @@ const verifyOrder = async(req,res)=>{
             }
             
     
-        
-             
+            
+            const responce = await Payment.findOneAndUpdate({orderId:razorpay_order_id},{status:"success",paymentId:razorpay_payment_id},{new:true}).populate("rideInfo")
+            
+            
             return res.status(200).json({
                 bookingDetails:rideInfo,
                 message:"Payment is recieve Successfully"

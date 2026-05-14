@@ -1,5 +1,8 @@
 const Razorpay = require("razorpay")
 const Ride = require("../../models/RideModel")
+const Payment = require("../../models/PaymentModel")
+const PassengerRide = require("../../models/PassengerRideModel")
+const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 const key_id = process.env.key_id
@@ -15,7 +18,7 @@ const CreateOrder = async(req,res)=>{
     
     try{
         
-        const id = req.params.id
+        const id = req.params.id  //ride id
         
         // const rideId  = req.body.id;
         const rideInfo =  await Ride.findById({_id:id})
@@ -25,11 +28,13 @@ const CreateOrder = async(req,res)=>{
         const responce = await instance.orders.create({
         amount: price*100,
         currency: "INR",
-        receipt: "receipt#1",
+        receipt: `receipt_order_${Date.now()}`,
         notes: {
             "comment":"The Order is created"
-        }
+         }
         })
+        
+        console.log(responce)
 
         let data={
             orderId:responce.id,
@@ -41,11 +46,52 @@ const CreateOrder = async(req,res)=>{
         console.log(data)
 
         console.log("Order Created")
+        
+
+        const token = req.headers.authorization.split(" ")[1]
+        const decodeToken =  jwt.verify(token, process.env.JWT_SECRET_KEY)
+        console.log(decodeToken)
+
+        
+
+        // Payment was already done but it was pending, so user should complete the payment instead of creating new order
+        const PrevPendingPaymentResponce = await Payment.findOne({
+            userId:decodeToken.userId,
+            rideId:id,
+            status:"pending"
+        })
+        
+        if(PrevPendingPaymentResponce){
+            return res.status(200).json({
+                data:data,
+                message:"Payment is already pending for this Ride and User, Please complete the payment"
+            })
+        }
+
+
+        const PaymentResponce = await Payment.create(
+             {
+                orderId:responce.id,
+                userId:decodeToken.userId,
+                currency:responce.currency, 
+                amount:responce.amount, 
+                rideInfo:rideInfo,
+                status:"pending"
+             })
+        
+        if(!PaymentResponce){
+            return res.status(400).json({
+                message:"Payment Responce Not created"
+            })
+        }
+        
+        console.log(PaymentResponce)
 
         return res.status(200).json({
             data:data,
             message:"Order Created Successfully"
         })
+
         
     }
     catch(error){
@@ -64,3 +110,5 @@ const CreateOrder = async(req,res)=>{
 
 
 module.exports = {CreateOrder}
+
+
