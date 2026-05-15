@@ -39,13 +39,19 @@ app.use(passport.session());
 
 // // Preflight OPTIONS handler (very important for POST/PUT)
 // app.options('*', cors({
-//     origin: 'http://localhost:5173',
-//     credentials: true,
-//     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-//     allowedHeaders: ['Content-Type','Authorization']
-// }));
-
+  //     origin: 'http://localhost:5173',
+  //     credentials: true,
+  //     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  //     allowedHeaders: ['Content-Type','Authorization']
+  // }));
+  
+  // Webhook
 app.use(cors());
+
+
+const webhookRoutes = require("./routes/webhook")
+app.use("/api/v1/webhook",express.raw({type: "application/json"}),webhookRoutes)
+
 
 
 app.use(express.json());
@@ -72,8 +78,11 @@ app.get("/", (req, res) => {
   res.send(`<h1>HomePage</h1>`);
 });
 
+
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/community", communityRoutes);
+
+
 
 app.get('/', (req, res) => {
   res.json({ message: 'Carpooling Backend API is live', status: 'ok' });

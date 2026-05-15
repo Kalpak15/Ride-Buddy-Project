@@ -19,11 +19,12 @@ const paymentSchema  = new mongoose.Schema({
         type:Number,
      },
      rideInfo:{
-        type:mongoose.Schema.Types.ObjectId
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Ride"
      },
      status:{
         type:String,
-        enum:["pending","success","failed"],
+        enum:["pending","success","failed","cancelled"],
         default:"null"
      }
 })

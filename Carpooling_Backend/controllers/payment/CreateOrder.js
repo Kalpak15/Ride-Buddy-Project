@@ -21,10 +21,40 @@ const CreateOrder = async(req,res)=>{
         const id = req.params.id  //ride id
         
         // const rideId  = req.body.id;
-        const rideInfo =  await Ride.findById({_id:id})
+        const rideInformation =  await Ride.findById({_id:id})
         
-        var price = rideInfo.price
+        var price = rideInformation.price
         
+        const token = req.headers.authorization.split(" ")[1]
+        const decodeToken =  jwt.verify(token, process.env.JWT_SECRET_KEY)
+        console.log(decodeToken)
+        
+        
+        // Payment was already done but it was pending, so user should complete the payment instead of creating new order
+        const PrevPendingPaymentResponce = await Payment.findOne({
+            userId:decodeToken.userId,
+            rideInfo:id,
+            status:"pending"
+        }).populate("rideInfo")
+
+        console.log(PrevPendingPaymentResponce)
+
+        if(PrevPendingPaymentResponce){
+
+              return res.status(200).json({
+                data:{
+                    orderId:PrevPendingPaymentResponce.orderId,
+                    amount:PrevPendingPaymentResponce.amount, 
+                    currency:PrevPendingPaymentResponce.currency, 
+                    keyId:key_id
+                },
+                message:"Yor Payment is Pending Please clear the Pending Payment"
+              })
+
+        }
+
+
+
         const responce = await instance.orders.create({
         amount: price*100,
         currency: "INR",
@@ -36,6 +66,8 @@ const CreateOrder = async(req,res)=>{
         
         console.log(responce)
 
+
+
         let data={
             orderId:responce.id,
             amount:responce.amount, 
@@ -46,27 +78,6 @@ const CreateOrder = async(req,res)=>{
         console.log(data)
 
         console.log("Order Created")
-        
-
-        const token = req.headers.authorization.split(" ")[1]
-        const decodeToken =  jwt.verify(token, process.env.JWT_SECRET_KEY)
-        console.log(decodeToken)
-
-        
-
-        // Payment was already done but it was pending, so user should complete the payment instead of creating new order
-        const PrevPendingPaymentResponce = await Payment.findOne({
-            userId:decodeToken.userId,
-            rideId:id,
-            status:"pending"
-        })
-        
-        if(PrevPendingPaymentResponce){
-            return res.status(200).json({
-                data:data,
-                message:"Payment is already pending for this Ride and User, Please complete the payment"
-            })
-        }
 
 
         const PaymentResponce = await Payment.create(
@@ -75,9 +86,9 @@ const CreateOrder = async(req,res)=>{
                 userId:decodeToken.userId,
                 currency:responce.currency, 
                 amount:responce.amount, 
-                rideInfo:rideInfo,
+                rideInfo:id,
                 status:"pending"
-             })
+             }).populate("rideInfo")
         
         if(!PaymentResponce){
             return res.status(400).json({
