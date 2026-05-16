@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load Digio SDK -->
+  <script src="https://ext.digio.in/sdk/v11/digio.js"></script>
+</head>
+<body> 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  
+  <button onclick="startKYC()">Start KYC Verification</button>
+  
+  <script>
+    async function startKYC() {
+      
+      const responce  = await axios.post(
+        "http://localhost:3000/api/v1/kyc/addhar",
+        
+        {
+          customer_identifier:"collegevirat07@gmail.com",
+          customer_name:"kalpak kulkarni",
+          template_name:"OfflineKyc"
+        },
+        
+        {
+          headers:{
+            "Content-Type":"application/json"
+          }
+        },
+      )
+      
+      console.log(responce)
+
+      if(responce.status === 200){
+          console.log(responce)
+          var documentId = responce.data.id
+          var userEmail = responce.data.customer_identifier
+      }
+      else{
+        console.log("Error fetching KYC data", error);
+        toast.error("Failed to fetch KYC data. Please try again.");
+      }
+      // 1. Setup options
+      var options = {
+        environment: "sandbox", // change to "production" when live
+        callback: function(response) {
+          if (response.hasOwnProperty("error_code")) {
+            alert("KYC Failed: " + response.error_code);
+          } else {
+            alert("KYC Successful! Transaction ID: " + response.txn_id);
+          }
+        },
+        logo: "https://yoursite.com/logo.png",
+        theme: {
+          primaryColor: "#1A73E8"
+        }
+      };
+
+      // 2. Create Digio instance
+      var digio = new Digio(options);
+
+      // 3. Open the popup
+      digio.init();
+      
+      // 4. Submit with Document ID (from your backend) + user identifier
+      // ← logged-in driver's email/phone
+      if(!documentId || !userEmail) {
+        alert("Missing Document ID or User Email");
+        return;
+      }
+      digio.submit(documentId, userEmail);
+    }
+  </script>
+
+</body>
+</html>

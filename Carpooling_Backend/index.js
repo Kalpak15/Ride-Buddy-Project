@@ -68,6 +68,8 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/api/v1/reviews", reviews);
 
 
+
+
 // Payment Routes
 const payments = require("./routes/payment")
 app.use("/api/v1/orders",payments)
@@ -79,9 +81,18 @@ app.get("/", (req, res) => {
 });
 
 
+
+
+
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/community", communityRoutes);
 
+
+
+
+// KYC Verification Routes
+const kycRoutes = require("./routes/kyc")
+app.use("/api/v1/kyc",kycRoutes)
 
 
 app.get('/', (req, res) => {
