@@ -17,6 +17,8 @@ exports.getRides = async (req, res) => {
 
     //filter the rides if 0 seats then dont add them
     const availableRides = rides.filter((ride) => ride.seats > 0);
+    
+    console.log(availableRides)
 
     // Send success response with populated rides data
     res.status(200).json({

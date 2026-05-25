@@ -93,18 +93,27 @@ function Navbar() {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
+    // 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const markAsRead = async (id) => {
     try {
-      await fetch(
+      const response = await fetch(
         `${PORT}/api/v1/notifications/read/${id}`,
         {
           method: "PUT",
         }
       );
-      setNotifications(notifications.filter((n) => n._id !== id));
+
+      console.log("Mark as read response:", response);
+
+      if (!response.ok) {
+        console.error("API error:", response.status, response.statusText);
+        return;
+      }
+      // setNotifications(notifications.filter((n) => n._id !== id));
+      setNotifications((prev) => prev.filter((n) => n._id !== id));
     } catch (error) {
       console.error("Error marking notification as read:", error);
     }
@@ -190,12 +199,23 @@ function Navbar() {
                                     {new Date(notif.createdAt).toLocaleString()}
                                   </p>
                                 </div>
-                                <button
+                                {/* <button
                                   onClick={() => markAsRead(notif._id)}
                                   className="text-blue-600 hover:text-blue-800 text-xs font-medium ml-2"
                                 >
                                   Dismiss
-                                </button>
+                                </button> */}
+                              <button
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  console.log("Desktop Dismiss clicked:", notif._id);
+                                  markAsRead(notif._id);
+                                }}
+                                className="text-blue-600 hover:text-blue-800 text-xs font-medium ml-2"
+                              >
+                                Dismiss
+                              </button>
                               </li>
                             ))}
                           </ul>
@@ -340,8 +360,19 @@ function Navbar() {
                                   {new Date(notif.createdAt).toLocaleString()}
                                 </p>
                               </div>
-                              <button
+                              {/* <button
                                 onClick={() => markAsRead(notif._id)}
+                                className="text-blue-600 hover:text-blue-800 text-xs font-medium ml-2"
+                              >
+                                Dismiss
+                              </button> */}
+                              <button
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  console.log("Mobile Dismiss clicked:", notif._id);
+                                  markAsRead(notif._id);
+                                }}
                                 className="text-blue-600 hover:text-blue-800 text-xs font-medium ml-2"
                               >
                                 Dismiss

@@ -89,10 +89,14 @@ function FindRides() {
         );
         const fetchedRides = response.data.rides;
         const currentDateTime = new Date();
+        
+
         const futureRides = fetchedRides.filter((ride) => {
           const rideDateTime = new Date(`${ride.date}T${ride.time}`);
+          console.log(`Ride DateTime: ${rideDateTime}, Current DateTime: ${currentDateTime}`);
           return rideDateTime >= currentDateTime;
         });
+        console.log(futureRides);
         setRides(futureRides);
         setFilteredRides(futureRides);
         if (from || to) {

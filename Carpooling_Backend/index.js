@@ -83,8 +83,10 @@ app.get("/", (req, res) => {
 
 
 
-
+// Notification Routes
 app.use("/api/v1/notifications", notificationRoutes);
+
+
 app.use("/api/v1/community", communityRoutes);
 
 
