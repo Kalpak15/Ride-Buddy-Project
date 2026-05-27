@@ -1,9 +1,14 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 const Ride = require("../models/RideModel");
 const PassengerRide = require("../models/PassengerRideModel");
 const User = require("../models/UserModel");
 const transporter = require("../utils/nodemailer");
 const { createNotification } = require("./notificationController");
+// import emailQueue from '../Queues/emailQueue.js';
+// import notificationQueue from '../Queues/notificationQueue.js';
+const notificationQueue = require("../Queues/notificationQueue.js");
+const emailQueue = require("../Queues/emailQueue.js");
 
 exports.createRide = async (req, res) => {
   try {
@@ -100,6 +105,7 @@ exports.createPassengerRide = async (req, res) => {
   const session = await mongoose.startSession();
   console.log(session)
   session.startTransaction();
+
 
   try {
     const { id } = req.params;
@@ -201,19 +207,36 @@ exports.createPassengerRide = async (req, res) => {
 
     
     // Notifications
-    await createNotification(
-      passengerId,
-      `Your booking from ${start} to ${destination} with ${seatsNum} seat${seatsNum > 1 ? "s" : ""} has been confirmed! Check your email for driver details.`,
-      "ride_accepted",
-      false
-    );
+    // await createNotification(
+    //   passengerId,
+    //   `Your booking from ${start} to ${destination} with ${seatsNum} seat${seatsNum > 1 ? "s" : ""} has been confirmed! Check your email for driver details.`,
+    //   "ride_accepted",
+    //   false
+    // );
+       
+    // Notification using BullMQ
+    await notificationQueue.add("ride_booked", {
+      user_id: passengerId,
+      message: `Your booking from ${start} to ${destination} with ${seatsNum} seat${seatsNum > 1 ? "s" : ""} has been confirmed! Check your email for driver details.`,
+      type: "ride_accepted",
+      sendMail: false
+    });
 
-    await createNotification(
-      existingRide.driver.toString(),
-      `${passenger.firstName} ${passenger.lastName} booked ${seatsNum} seat${seatsNum > 1 ? "s" : ""} on your ride from ${existingRide.start} to ${existingRide.destination} on ${existingRide.date} at ${existingRide.time}. Check your email for passenger details.`,
-      "ride_booked",
-      false
-    );
+
+    // await createNotification(
+    //   existingRide.driver.toString(),
+    //   `${passenger.firstName} ${passenger.lastName} booked ${seatsNum} seat${seatsNum > 1 ? "s" : ""} on your ride from ${existingRide.start} to ${existingRide.destination} on ${existingRide.date} at ${existingRide.time}. Check your email for passenger details.`,
+    //   "ride_booked",
+    //   false
+    // );
+
+    // NOtification using BullMQ
+    await notificationQueue.add("ride_booked", {
+      user_id: existingRide.driver.toString(),
+      message: `${passenger.firstName} ${passenger.lastName} booked ${seatsNum} seat${seatsNum > 1 ? "s" : ""} on your ride from ${existingRide.start} to ${existingRide.destination} on ${existingRide.date} at ${existingRide.time}. Check your email for passenger details.`,
+      type: "ride_booked",
+      sendMail: false
+    });
 
     await session.commitTransaction();
     console.log("Transaction committed");
@@ -244,11 +267,11 @@ exports.createPassengerRide = async (req, res) => {
       `,
     };
 
-    console.log(`Sending email to passenger ${passenger.email}`);
-    await transporter.sendMail(passengerMailOptions);
-    console.log(`Email sent successfully to ${passenger.email}`);
+    // console.log(`Sending email to passenger ${passenger.email}`);
+    // await transporter.sendMail(passengerMailOptions);
+    // console.log(`Email sent successfully to ${passenger.email}`);
 
-    // Email to driver
+    // // Email to driver
     const driverMailOptions = {
       from: process.env.EMAIL_USER,
       to: driver.email,
@@ -274,10 +297,27 @@ exports.createPassengerRide = async (req, res) => {
       `,
     };
 
-    console.log(`Sending email to driver ${driver.email}`);
-    await transporter.sendMail(driverMailOptions);
-    console.log(`Email sent successfully to ${driver.email}`);
+    // console.log(`Sending email to driver ${driver.email}`);
+    // await transporter.sendMail(driverMailOptions);
+    // console.log(`Email sent successfully to ${driver.email}`);
+    
 
+  // ------------------------------------------------------------------------------
+    // Adding email jobs to BullMQ
+    // Email to passenger
+    await emailQueue.add("send-passenger-email", passengerMailOptions);
+    
+    
+    // Adding email jobs to BullMQ
+    // Email to Driver
+    await emailQueue.add("send-driver-email", driverMailOptions);
+    
+    const { concurrency, max, duration, maxLenEvents, paused, version } = await emailQueue.getMeta();
+    
+    console.log(`Email Queue Meta: concurrency=${concurrency}, max=${max}, duration=${duration}, maxLenEvents=${maxLenEvents}, paused=${paused}, version=${version}`);
+  
+
+// --------------------------------------------------------------------------------
 
     res.status(201).json({
       message: "Passenger Ride created successfully",
